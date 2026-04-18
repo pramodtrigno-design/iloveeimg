@@ -1,0 +1,1 @@
+import{r as a,l as o,s as u}from"./index-C-A-Tqu-.js";var i=u[" useId ".trim().toString()]||(()=>{}),c=0;function n(r){const[t,e]=a.useState(i());return o(()=>{e(s=>s??String(c++))},[r]),t?`radix-${t}`:""}export{n as u};

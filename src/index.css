@@ -1,0 +1,328 @@
+/* Font loaded via next/font in layout.tsx — zero CLS, preloaded */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    --primary: 4 90% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 15%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 20% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 4 90% 58%;
+
+    --radius: 0.75rem;
+
+    /* Tool-specific colors */
+    --tool-merge: 4 90% 58%;
+    --tool-split: 25 95% 53%;
+    --tool-compress: 142 71% 45%;
+    --tool-convert: 217 91% 60%;
+    --tool-edit: 262 83% 58%;
+    --tool-organize: 330 80% 60%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(4, 90%, 58%) 0%, hsl(25, 95%, 53%) 50%, hsl(45, 93%, 47%) 100%);
+    --gradient-merge: linear-gradient(135deg, hsl(4, 90%, 58%) 0%, hsl(350, 80%, 50%) 100%);
+    --gradient-split: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(35, 90%, 50%) 100%);
+    --gradient-compress: linear-gradient(135deg, hsl(142, 71%, 45%) 0%, hsl(160, 70%, 40%) 100%);
+    --gradient-convert: linear-gradient(135deg, hsl(217, 91%, 60%) 0%, hsl(230, 85%, 55%) 100%);
+    --gradient-edit: linear-gradient(135deg, hsl(262, 83%, 58%) 0%, hsl(280, 75%, 50%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-tool: 0 4px 20px -4px rgb(0 0 0 / 0.15);
+    --shadow-tool-hover: 0 12px 30px -8px rgb(0 0 0 / 0.25);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 20% 13%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 20% 13%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 4 90% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 220 15% 20%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 4 90% 58%;
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 4 90% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 4 90% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .tool-card {
+    @apply relative overflow-hidden rounded-2xl bg-card p-6 transition-all duration-300 cursor-pointer;
+    box-shadow: var(--shadow-tool);
+  }
+
+  .tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-tool-hover);
+  }
+
+  .tool-card-merge {
+    @apply border-l-4;
+    border-color: hsl(var(--tool-merge));
+  }
+
+  .tool-card-split {
+    @apply border-l-4;
+    border-color: hsl(var(--tool-split));
+  }
+
+  .tool-card-compress {
+    @apply border-l-4;
+    border-color: hsl(var(--tool-compress));
+  }
+
+  .tool-card-convert {
+    @apply border-l-4;
+    border-color: hsl(var(--tool-convert));
+  }
+
+  .tool-card-edit {
+    @apply border-l-4;
+    border-color: hsl(var(--tool-edit));
+  }
+
+  .dropzone {
+    @apply relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300;
+    border-color: hsl(var(--border));
+    background: linear-gradient(180deg, hsl(var(--muted) / 0.3) 0%, hsl(var(--background)) 100%);
+  }
+
+  .dropzone:hover,
+  .dropzone-active {
+    border-color: hsl(var(--primary));
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--background)) 100%);
+  }
+
+  .btn-tool {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200;
+    background: var(--gradient-hero);
+    color: white;
+    box-shadow: 0 4px 14px -2px hsl(var(--primary) / 0.4);
+  }
+
+  .btn-tool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -2px hsl(var(--primary) / 0.5);
+  }
+
+  .btn-tool:active {
+    transform: translateY(0);
+  }
+
+  .file-item {
+    @apply flex items-center gap-4 p-4 rounded-xl bg-card border border-border transition-all duration-200;
+  }
+
+  .file-item:hover {
+    @apply bg-muted;
+  }
+
+  .progress-bar {
+    @apply h-2 rounded-full overflow-hidden bg-muted;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-300;
+    background: var(--gradient-hero);
+  }
+
+  .nav-link {
+    @apply px-4 py-2 rounded-lg font-medium text-muted-foreground transition-colors duration-200;
+  }
+
+  .nav-link:hover {
+    @apply text-foreground bg-muted;
+  }
+
+  .nav-link-active {
+    @apply text-primary;
+  }
+
+  .icon-badge {
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center text-white;
+  }
+
+  .icon-badge-merge {
+    background: var(--gradient-merge);
+  }
+
+  .icon-badge-split {
+    background: var(--gradient-split);
+  }
+
+  .icon-badge-compress {
+    background: var(--gradient-compress);
+  }
+
+  .icon-badge-convert {
+    background: var(--gradient-convert);
+  }
+
+  .icon-badge-edit {
+    background: var(--gradient-edit);
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-muted-foreground max-w-2xl;
+  }
+
+  .page-container {
+    @apply min-h-screen bg-background;
+  }
+
+  .content-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .tool-page-header {
+    @apply py-12 text-center;
+  }
+
+  .tool-page-content {
+    @apply pb-20;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .bg-gradient-merge {
+    background: var(--gradient-merge);
+  }
+
+  .bg-gradient-split {
+    background: var(--gradient-split);
+  }
+
+  .bg-gradient-compress {
+    background: var(--gradient-compress);
+  }
+
+  .bg-gradient-convert {
+    background: var(--gradient-convert);
+  }
+
+  .bg-gradient-edit {
+    background: var(--gradient-edit);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -10;
+    }
+  }
+
+  .animate-dash {
+    animation: dash 0.5s linear infinite;
+    stroke-dasharray: 5;
+  }
+}
