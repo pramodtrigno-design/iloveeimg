@@ -176,13 +176,13 @@ const Index = () => {
         <h1
           className="text-2xl md:text-3xl font-bold tracking-tighter text-black dark:text-gray-50 mb-2"
         >
-          Explore Our Services
+         All-in-One PDF & Image Tools
         </h1>
 
         <p
           className="text-[17px] text-gray-800 dark:text-gray-200 font-medium animate-in fade-in fill-mode-both"
         >
-          Choose from our collection of professional PDF tools
+          Convert, compress, merge, split, and manage your files effortlessly
         </p>
       </section>
 
