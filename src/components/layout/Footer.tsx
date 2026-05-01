@@ -49,12 +49,12 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-3s" aria-label="iLoveIMG Home">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-500 via-red-500 to-pink-700 flex items-center justify-center" aria-hidden="true">
+              <div className="w-8 h-8 md:h-9 md:w-9  rounded-xl bg-gradient-to-r from-red-500 via-red-500 to-pink-700 flex items-center justify-center" aria-hidden="true">
                 <ImageDown className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold"><span className="text-red-600">iLove</span>IMG</span>
+              <span className="text-2xl md:text-3xl font-bold"><span className="text-red-600">iLovee</span>IMG</span>
             </Link>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground mb-4 mt-3">
               Free online PDF tools to merge, split, compress, convert, and edit PDF files.
             </p>
             <div className="flex gap-3">
