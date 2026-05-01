@@ -26,10 +26,10 @@ export function Header() {
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" aria-label="iLoveIMG Home">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-500 via-red-500 to-pink-700 flex items-center justify-center" aria-hidden="true">
+            <div className="w-8 h-8 md:h-9 md:w-9 rounded-xl bg-gradient-to-r from-red-500 via-red-500 to-pink-700 flex items-center justify-center" aria-hidden="true">
               <ImageDown className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold"><span className="text-red-600">iLove</span>IMG</span>
+            <span className="text-2xl md:text-3xl font-bold"><span className="text-red-600">iLovee</span>IMG</span>
           </Link>
 
           {/* Desktop Navigation */}
