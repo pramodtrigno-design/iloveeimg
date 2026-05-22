@@ -3,121 +3,50 @@ import { updatePost, deletePost } from "@/lib/blog";
 import { isAuthenticated } from "@/lib/auth";
 
 export async function PUT(
-  request: NextRequest,
-  context: { params: Promise<{ slug: string }> }
+    request: NextRequest,
+    { params }: { params: Promise<{ slug: string }> }
 ) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
-  }
-
-  try {
-    const { slug } = await context.params;
-
-    const body = await request.json();
-
-    const {
-      slug: newSlug,
-      title,
-      excerpt,
-      content,
-      coverImage,
-      author,
-      category,
-      tags,
-    } = body;
-
-    if (!title || !content || !excerpt) {
-      return NextResponse.json(
-        { error: "Title, excerpt, and content are required." },
-        { status: 400 }
-      );
+    if (!(await isAuthenticated())) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const post = updatePost(slug, {
-      slug: newSlug,
-      title,
-      excerpt,
-      content,
-      coverImage:
-        coverImage || "/blog/default-cover.jpg",
-      author: author || "iLoveIMG Team",
-      category: category || "General",
-      tags: tags || [],
-    });
+    try {
+        const { slug } = await params;
+        const body = await request.json();
 
-    if (!post) {
-      return NextResponse.json(
-        { error: "Post not found." },
-        { status: 404 }
-      );
+        const { slug: newSlug, title, excerpt, content, coverImage, author, category, tags } = body;
+
+        if (!title || !content || !excerpt) {
+            return NextResponse.json(
+                { error: "Title, excerpt, and content are required." },
+                { status: 400 }
+            );
+        }
+
+        const post = updatePost(slug, {
+            slug: newSlug,
+            title,
+            excerpt,
+            content,
+            coverImage: coverImage || "/blog/default-cover.jpg",
+            author: author || "iLoveIMG Team",
+            category: category || "General",
+            tags: tags || [],
+        });
+
+        if (!post) {
+            return NextResponse.json({ error: "Post not found." }, { status: 404 });
+        }
+
+        return NextResponse.json({ success: true, post }, { status: 200 });
+    } catch (error) {
+        console.error("Error updating blog post:", error);
+        return NextResponse.json(
+            { error: "Failed to update blog post." },
+            { status: 500 }
+        );
     }
-
-    return NextResponse.json(
-      { success: true, post },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        error:
-          error?.message ||
-          "Failed to update blog post.",
-      },
-      { status: 500 }
-    );
-  }
 }
-
-// export async function PUT(
-//     request: NextRequest,
-//     { params }: { params: Promise<{ slug: string }> }
-// ) {
-//     if (!(await isAuthenticated())) {
-//         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//     }
-
-//     try {
-//         const { slug } = await params;
-//         const body = await request.json();
-
-//         const { slug: newSlug, title, excerpt, content, coverImage, author, category, tags } = body;
-
-//         if (!title || !content || !excerpt) {
-//             return NextResponse.json(
-//                 { error: "Title, excerpt, and content are required." },
-//                 { status: 400 }
-//             );
-//         }
-
-//         const post = updatePost(slug, {
-//             slug: newSlug,
-//             title,
-//             excerpt,
-//             content,
-//             coverImage: coverImage || "/blog/default-cover.jpg",
-//             author: author || "iLoveIMG Team",
-//             category: category || "General",
-//             tags: tags || [],
-//         });
-
-//         if (!post) {
-//             return NextResponse.json({ error: "Post not found." }, { status: 404 });
-//         }
-
-//         return NextResponse.json({ success: true, post }, { status: 200 });
-//     } catch (error) {
-//         console.error("Error updating blog post:", error);
-//         return NextResponse.json(
-//             { error: "Failed to update blog post." },
-//             { status: 500 }
-//         );
-//     }
-// }
 
 export async function DELETE(
     request: NextRequest,
