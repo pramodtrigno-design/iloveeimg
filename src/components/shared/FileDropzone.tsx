@@ -58,18 +58,18 @@ export function FileDropzone({
         className={`dropzone cursor-pointer dropzone-active ${isDragActive ? "dropzone-active" : ""}`}
       >
         <input {...getInputProps()} />
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-            <Upload className="w-8 h-8 text-primary" />
+        <div className="flex md:flex-col flex-row  items-center gap-4">
+          <div className="md:w-16 md:h-16 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <Upload className="md:w-8 md:h-8 text-primary" />
           </div>
           <div>
-            <p className="text-lg font-semibold">{title}</p>
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
+            <p className="text-lg font-semibold text-left md:text-center">{title}</p>
+            <p className="text-sm text-muted-foreground hidden md:block">{subtitle}</p>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground hidden md:block">
             Max {formatFileSize(maxSize)} per file
             {multiple && ` • Up to ${maxFiles} files`}
-          </p>
+          </p> 
         </div>
       </div>
 

@@ -20,7 +20,7 @@ export default async function EditBlogPage({
     }
 
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         notFound();

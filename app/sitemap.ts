@@ -3,7 +3,7 @@ import { getAllSlugs } from "@/lib/blog";
 
 const BASE_URL = "https://iloveeimg.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const toolRoutes = [
         "/",
         "/pdf-merge",
@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         "/blog",
     ];
 
-    const blogSlugs = getAllSlugs();
+    const blogSlugs = await getAllSlugs();
 
     return [
         ...toolRoutes.map((route) => ({

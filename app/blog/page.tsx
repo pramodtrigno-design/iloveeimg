@@ -36,7 +36,7 @@ export default async function BlogPage({
 }) {
     const params = await searchParams;
     const currentPage = Math.max(1, parseInt(params.page || "1", 10));
-    const { posts, total, page, totalPages } = getPaginatedPosts(currentPage, 6);
+    const { posts, total, page, totalPages } = await getPaginatedPosts(currentPage, 6);
     const isAdmin = await isAuthenticated();
 
     return (

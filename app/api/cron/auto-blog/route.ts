@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
 
         const fullContent = `${intro}\n\n${body}\n\n${conclusion}`;
 
-        const post = createPost({
+        const post = await createPost({
             title: title,
             excerpt: `Learn the easiest and most secure way to ${service.topic} directly from your browser. Try our free, fast tool today.`,
             content: fullContent,

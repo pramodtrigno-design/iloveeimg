@@ -1,7 +1,6 @@
-import fs from "fs";
-import path from "path";
+import { connectToDatabase } from "./mongodb";
+import { BlogPostModel, BlogPostDoc } from "./models/BlogPost";
 
-/* ── Types ──────────────────────────────────────────────── */
 export interface BlogPost {
     id: string;
     slug: string;
@@ -25,36 +24,50 @@ export interface PaginatedResult {
     totalPages: number;
 }
 
-/* ── File path ──────────────────────────────────────────── */
-const DATA_FILE = path.join(process.cwd(), "src/data/blogs.json");
-
-function readPosts(): BlogPost[] {
-    try {
-        const raw = fs.readFileSync(DATA_FILE, "utf-8");
-        return JSON.parse(raw) as BlogPost[];
-    } catch {
-        return [];
-    }
+function serialize(doc: BlogPostDoc): BlogPost {
+    return {
+        id: String(doc._id),
+        slug: doc.slug,
+        title: doc.title,
+        excerpt: doc.excerpt,
+        content: doc.content,
+        coverImage: doc.coverImage,
+        author: doc.author,
+        category: doc.category,
+        tags: doc.tags ?? [],
+        readingTime: doc.readingTime,
+        publishedAt: doc.publishedAt.toISOString(),
+        updatedAt: doc.updatedAt.toISOString(),
+    };
 }
 
-function writePosts(posts: BlogPost[]): void {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(posts, null, 2), "utf-8");
+function slugify(input: string): string {
+    return input
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
 }
 
-/* ── Public API ─────────────────────────────────────────── */
+function calcReadingTime(content: string): number {
+    const wordCount = content.replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(wordCount / 200));
+}
 
 /** Get paginated blog posts, newest first */
-export function getPaginatedPosts(page = 1, pageSize = 6): PaginatedResult {
-    const all = readPosts().sort(
-        (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
-    const total = all.length;
+export async function getPaginatedPosts(page = 1, pageSize = 6): Promise<PaginatedResult> {
+    await connectToDatabase();
+    const total = await BlogPostModel.countDocuments();
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
     const safePage = Math.min(Math.max(1, page), totalPages);
     const start = (safePage - 1) * pageSize;
 
+    const docs = await BlogPostModel.find()
+        .sort({ publishedAt: -1 })
+        .skip(start)
+        .limit(pageSize);
+
     return {
-        posts: all.slice(start, start + pageSize),
+        posts: docs.map(serialize),
         total,
         page: safePage,
         pageSize,
@@ -63,101 +76,93 @@ export function getPaginatedPosts(page = 1, pageSize = 6): PaginatedResult {
 }
 
 /** Get a single post by slug */
-export function getPostBySlug(slug: string): BlogPost | null {
-    return readPosts().find((p) => p.slug === slug) ?? null;
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+    await connectToDatabase();
+    const doc = await BlogPostModel.findOne({ slug });
+    return doc ? serialize(doc) : null;
 }
 
 /** Get all slugs (for generateStaticParams) */
-export function getAllSlugs(): string[] {
-    return readPosts().map((p) => p.slug);
+export async function getAllSlugs(): Promise<string[]> {
+    await connectToDatabase();
+    const docs = await BlogPostModel.find({}, { slug: 1, _id: 0 });
+    return docs.map((d) => d.slug);
 }
 
 /** Get all unique categories */
-export function getCategories(): string[] {
-    const cats = new Set(readPosts().map((p) => p.category));
-    return Array.from(cats);
+export async function getCategories(): Promise<string[]> {
+    await connectToDatabase();
+    const cats = await BlogPostModel.distinct("category");
+    return cats as string[];
 }
 
 /** Create a new blog post */
-export function createPost(
+export async function createPost(
     data: Omit<BlogPost, "id" | "slug" | "publishedAt" | "updatedAt" | "readingTime"> & { slug?: string }
-): BlogPost {
-    const posts = readPosts();
-    const id = String(Date.now());
+): Promise<BlogPost> {
+    await connectToDatabase();
 
-    // Use provided slug or generate from title
-    const slug = (data.slug || data.title)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
-
-    // Estimate reading time (avg 200 words/min)
-    const wordCount = data.content.replace(/<[^>]*>/g, "").split(/\s+/).length;
-    const readingTime = Math.max(1, Math.round(wordCount / 200));
-
-    const now = new Date().toISOString();
-
-    // Ensure slug is unique
-    let finalSlug = slug;
+    const baseSlug = slugify(data.slug || data.title);
+    let finalSlug = baseSlug;
     let counter = 1;
-    while (posts.some(p => p.slug === finalSlug)) {
-        finalSlug = `${slug}-${counter++}`;
+    while (await BlogPostModel.exists({ slug: finalSlug })) {
+        finalSlug = `${baseSlug}-${counter++}`;
     }
 
-    const post: BlogPost = {
-        ...data,
-        id,
+    const doc = await BlogPostModel.create({
         slug: finalSlug,
-        readingTime,
-        publishedAt: now,
-        updatedAt: now,
-    } as BlogPost;
+        title: data.title,
+        excerpt: data.excerpt,
+        content: data.content,
+        coverImage: data.coverImage || "/blog/default-cover.jpg",
+        author: data.author || "iLoveIMG Team",
+        category: data.category || "General",
+        tags: data.tags || [],
+        readingTime: calcReadingTime(data.content),
+        publishedAt: new Date(),
+    });
 
-    posts.push(post);
-    writePosts(posts);
-    return post;
+    return serialize(doc);
 }
 
 /** Update an existing blog post */
-export function updatePost(
+export async function updatePost(
     slug: string,
     data: Partial<Omit<BlogPost, "id" | "publishedAt" | "readingTime">>
-): BlogPost | null {
-    const posts = readPosts();
-    const index = posts.findIndex((p) => p.slug === slug);
-    if (index === -1) return null;
+): Promise<BlogPost | null> {
+    await connectToDatabase();
 
-    const existingPost = posts[index];
+    const existing = await BlogPostModel.findOne({ slug });
+    if (!existing) return null;
 
-    // Re-calculate reading time if content changed
-    let readingTime = existingPost.readingTime;
-    if (data.content) {
-        const wordCount = data.content.replace(/<[^>]*>/g, "").split(/\s+/).length;
-        readingTime = Math.max(1, Math.round(wordCount / 200));
+    if (data.title !== undefined) existing.title = data.title;
+    if (data.excerpt !== undefined) existing.excerpt = data.excerpt;
+    if (data.content !== undefined) {
+        existing.content = data.content;
+        existing.readingTime = calcReadingTime(data.content);
+    }
+    if (data.coverImage !== undefined) existing.coverImage = data.coverImage;
+    if (data.author !== undefined) existing.author = data.author;
+    if (data.category !== undefined) existing.category = data.category;
+    if (data.tags !== undefined) existing.tags = data.tags;
+
+    if (data.slug && data.slug !== existing.slug) {
+        const newBase = slugify(data.slug);
+        let candidate = newBase;
+        let counter = 1;
+        while (await BlogPostModel.exists({ slug: candidate, _id: { $ne: existing._id } })) {
+            candidate = `${newBase}-${counter++}`;
+        }
+        existing.slug = candidate;
     }
 
-    const updatedPost: BlogPost = {
-        ...existingPost,
-        ...data,
-        readingTime,
-        updatedAt: new Date().toISOString(),
-    };
-
-    posts[index] = updatedPost;
-    writePosts(posts);
-    return updatedPost;
+    await existing.save();
+    return serialize(existing);
 }
 
 /** Delete a blog post */
-export function deletePost(slug: string): boolean {
-    const posts = readPosts();
-    const initialLength = posts.length;
-    const newPosts = posts.filter((p) => p.slug !== slug);
-
-    if (newPosts.length === initialLength) {
-        return false; // not found
-    }
-
-    writePosts(newPosts);
-    return true;
+export async function deletePost(slug: string): Promise<boolean> {
+    await connectToDatabase();
+    const result = await BlogPostModel.deleteOne({ slug });
+    return result.deletedCount > 0;
 }

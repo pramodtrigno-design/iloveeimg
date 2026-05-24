@@ -26,12 +26,12 @@ export function ToolPageHeader({ title, description, icon: Icon, category }: Too
       animate={{ opacity: 1, y: 0 }}
       className="tool-page-header"
     >
-      <div className="flex justify-center mb-6">
+      <div className=" justify-center mb-6 hidden md:flex ">
         <div className={`icon-badge w-20 h-20 ${iconBadgeStyles[category]}`}>
           <Icon className="w-10 h-10" />
         </div>
       </div>
-      <h1 className="section-title mb-4">{title}</h1>
+      <h1 className="section-title  mb-2 md:mb-4">{title}</h1>
       <p className="section-subtitle mx-auto">{description}</p>
     </motion.div>
   );

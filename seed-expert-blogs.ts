@@ -101,9 +101,16 @@ const posts = [
 ];
 
 // Insert the expert posts
-for (const post of posts) {
-    createPost(post);
-    console.log("Successfully created expert post:", post.title);
+async function seed() {
+    for (const post of posts) {
+        await createPost(post);
+        console.log("Successfully created expert post:", post.title);
+    }
+    console.log("Seeding complete. Run your app to view the new expert-level articles.");
+    process.exit(0);
 }
 
-console.log("Seeding complete. Run your app to view the new expert-level articles.");
+seed().catch((err) => {
+    console.error("Seeding failed:", err);
+    process.exit(1);
+});

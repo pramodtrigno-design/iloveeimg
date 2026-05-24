@@ -23,7 +23,7 @@ export async function PUT(
             );
         }
 
-        const post = updatePost(slug, {
+        const post = await updatePost(slug, {
             slug: newSlug,
             title,
             excerpt,
@@ -58,7 +58,7 @@ export async function DELETE(
 
     try {
         const { slug } = await params;
-        const success = deletePost(slug);
+        const success = await deletePost(slug);
 
         if (!success) {
             return NextResponse.json({ error: "Post not found." }, { status: 404 });
