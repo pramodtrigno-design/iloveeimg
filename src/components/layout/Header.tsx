@@ -10,7 +10,7 @@ const navItems = [
   { label: "All Tools", href: "/" },
   { label: "Merge PDF", href: "/pdf-merge" },
   { label: "Split PDF", href: "/pdf-split" },
-  { label: "Compress", href: "/compress-pdf" },
+  { label: "Compress", href: "/compress" },
   { label: "Image Compress", href: "/image-compress" },
   { label: "Image Convert", href: "/image-convert" },
   { label: "Blog", href: "/blog" },
