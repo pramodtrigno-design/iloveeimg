@@ -55,7 +55,7 @@ const tools: Tool[] = [
     title: "Compress PDF",
     description: "Reduce PDF file size while maintaining quality",
     icon: Minimize2,
-    href: "/compress",
+    href: "/compress-pdf",
     category: "compress",
     hexColor: "#22c55e", // green-500
     shadowColor: "rgba(34, 197, 94, 0.2)",
