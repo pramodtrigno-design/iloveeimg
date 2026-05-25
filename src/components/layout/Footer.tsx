@@ -14,7 +14,7 @@ const toolCategories = [
   {
     title: "Optimize PDF",
     tools: [
-      { name: "Compress PDF", href: "/compress" },
+      { name: "Compress PDF", href: "/compress-pdf" },
     ],
   },
   {
