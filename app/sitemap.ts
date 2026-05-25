@@ -8,7 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         "/",
         "/pdf-merge",
         "/pdf-split",
-        "/compress",
+        "/compress-pdf",
         "/image-to-pdf",
         "/pdf-to-image",
         "/pdf-rotate",
