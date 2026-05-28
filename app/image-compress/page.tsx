@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Image Compressor — iLoveIMG", url: "https://iloveeimg.com/image-compress", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Compress images to reduce file size while maintaining quality." }) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Image Compressor — iLoveeIMG", url: "https://iloveeimg.com/image-compress", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Compress images to reduce file size while maintaining quality." }) }} />
             <CompressImagePage />
         </>
     );
