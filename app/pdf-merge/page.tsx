@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Merge PDF — iLoveIMG", url: "https://iloveeimg.com/merge", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Combine multiple PDF files into one document online for free." }) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Merge PDF — iLoveeIMG", url: "https://iloveeimg.com/merge", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Combine multiple PDF files into one document online for free." }) }} />
             <MergePDFPage />
         </>
     );
