@@ -15,14 +15,14 @@ export const metadata: Metadata = {
     ],
     alternates: { canonical: "/blog" },
     openGraph: {
-        title: "Blog — PDF Tips, Guides & Tutorials | iLoveIMG",
+        title: "Blog — PDF Tips, Guides & Tutorials | iLoveeIMG",
         description: "Expert tips and guides for working with PDF and image files.",
         url: "/blog",
         type: "website",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Blog — PDF Tips, Guides & Tutorials | iLoveIMG",
+        title: "Blog — PDF Tips, Guides & Tutorials | iLoveeIMG",
         description: "Expert tips and guides for working with PDF and image files.",
     },
 };
@@ -48,12 +48,12 @@ export default async function BlogPage({
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "Blog",
-                        name: "iLoveIMG Blog",
+                        name: "iLoveeIMG Blog",
                         url: "https://iloveeimg.com/blog",
                         description: "Expert tips, guides, and tutorials for working with PDF and image files.",
                         publisher: {
                             "@type": "Organization",
-                            name: "iLoveIMG",
+                            name: "iLoveeIMG",
                             url: "https://iloveeimg.com",
                         },
                         blogPost: posts.map((p) => ({
