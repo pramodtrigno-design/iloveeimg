@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Add Watermark to PDF — iLoveIMG", url: "https://iloveeimg.com/watermark", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Add text watermarks to your PDF documents online for free." }) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Add Watermark to PDF — iLoveeIMG", url: "https://iloveeimg.com/watermark", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Add text watermarks to your PDF documents online for free." }) }} />
             <WatermarkPDFPage />
         </>
     );
