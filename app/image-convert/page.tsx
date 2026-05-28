@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Image Format Converter — iLoveIMG", url: "https://iloveeimg.com/image-convert", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Convert images between WebP, PNG, and JPG formats online for free." }) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebApplication", name: "Image Format Converter — iLoveeIMG", url: "https://iloveeimg.com/image-convert", applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Convert images between WebP, PNG, and JPG formats online for free." }) }} />
             <ImageConverterPage />
         </>
     );
